@@ -1,0 +1,10 @@
+---
+- name: restart_bitlbee
+  ansible.builtin.service:
+    name: bitlbee
+    state: restarted
+
+- name: restart_stunnel4
+  ansible.builtin.service:
+    name: stunnel4
+    state: restarted

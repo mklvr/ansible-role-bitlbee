@@ -1,0 +1,7 @@
+---
+# defaults file for bitlbee
+bitlbee_listen_host: 127.0.0.1
+bitlbee_listen_port: 6667
+bitlbee_listen_ssl_port:  6697
+bitlbee_ssl_cert: /etc/ssl/certs/{{ ansible_fqdn }}.crt
+bitlbee_ssl_key: /etc/ssl/private/{{ ansible_fqdn }}.pem

@@ -1,0 +1,39 @@
+---
+- name: Install the required packages
+  ansible.builtin.apt:
+    name:
+      - bitlbee
+      - stunnel4
+    state: present
+
+- name: Add the configuration for stunnel
+  ansible.builtin.copy:
+    dest: /etc/stunnel/bitlbee.conf
+    content: |
+      [bitlbee]
+      accept = {{ bitlbee_ssl_listen_port }}
+      connect = {{ bitlbee_listen_host }}:{{ bitlebee_listen_port }}
+      cert = {{ bitlbee_ssl_cert }}
+      key = {{ bitlbee_ssl_key }}
+    notify: restart_stunnel4
+
+- name: Enable and run stunnel
+  ansible.builtin.service:
+    name: stunnel4
+    state: started
+    enabled: True
+
+- name: Add the bitlbee config
+  ansible.builtin.template:
+    dest: /etc/bitlbee/bitlbee.conf
+    src: bitlbee.conf.j2
+    owner: root
+    group: bitlbee
+    mode: "0640"
+  notify: restart_bitlbee
+
+- name: Enable and run bitlbee
+  ansible.builtin.service:
+    name: bitlbee
+    state: started
+    enabled: True
